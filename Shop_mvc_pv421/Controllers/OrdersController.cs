@@ -46,24 +46,29 @@ namespace Shop_mvc_pv421.Controllers
         public IActionResult Add()
         {
             var products = cartService.GetProducts();
+            var itemIds = cartService.GetItemIds();
 
             var order = new Order()
             {
                 Date = DateTime.UtcNow,
                 UserId = CurrentUserId,
-                TotalPrice = (double)products.Sum(x => x.Price), 
+                TotalPrice = (double)products.Sum(x => x.Price * itemIds.Count(id => id == x.Id)), 
             };
+            
+            // Add to context but don't save yet - atomic transaction
             ctx.Orders.Add(order);
-            ctx.SaveChanges();
 
             var details = new List<OrderDetails>();
             foreach (var product in products)
             {
+                var quantity = itemIds.Count(id => id == product.Id);
+                product.Quantity -= quantity;
+
                 details.Add(new OrderDetails()
                 {
-                    Quantity = 1,
+                    Quantity = quantity,
                     ProductId = product.Id,
-                    OrderId = order.Id
+                    Order = order
                 });
             }
 
