@@ -1,0 +1,32 @@
+﻿@model Product
+
+<div class="card h-100">
+    <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Id" class="text-decoration-none">
+        <img src="@(Model.ImageUrl ?? "https://thumbs.dreamstime.com/b/no-image-icon-vector-available-picture-symbol-isolated-white-background-suitable-user-interface-element-205805243.jpg")" class="card-img-top" alt="Product">
+    </a>
+    <div class="card-body">
+        <h5 class="card-title">
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Id" class="text-decoration-none text-dark">@Model.Title</a>
+        </h5>
+        <p class="card-text">
+            @if (Model.Discount > 0)
+            {
+                <span class="text-decoration-line-through">@Model.Price$</span>
+                <span class="ms-1 fw-bold">@((Model.Price * (100 - Model.Discount)) / 100)$</span>
+                <span class="badge bg-success ms-1">-@Model.Discount%</span>
+            }
+            else
+            {
+                <span>@Model.Price$</span>
+            }
+            - @Model.Category?.Name
+        </p>
+    </div>
+    <div class="card-footer">
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">View Details</a>
+        <button type="button" class="btn btn-danger">
+            <i class="bi bi-heart-fill"></i>
+        </button>
+        <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-primary">Add to Cart</a>
+    </div>
+</div>
