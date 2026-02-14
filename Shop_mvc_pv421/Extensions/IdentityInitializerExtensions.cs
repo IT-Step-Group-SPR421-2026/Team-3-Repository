@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Shop_mvc_pv421.Data.Entities;
 using System.Reflection;
+using System;
 
 namespace Shop_mvc_pv421.Extensions
 {
@@ -26,9 +27,13 @@ namespace Shop_mvc_pv421.Extensions
         public static async Task SeedAdminAsync(this IServiceProvider app)
         {
             var userManager = app.GetRequiredService<UserManager<User>>();
+            var configuration = app.GetRequiredService<IConfiguration>();
 
             const string USERNAME = "admin@ukr.net";
-            const string PASSWORD = "Qwer-1234";
+            // Read from environment variable or configuration, with a secure default for development
+            var password = Environment.GetEnvironmentVariable("AdminPassword")
+                         ?? configuration["AdminPassword"]
+                         ?? "ChangeThisPassword123!";
 
             var existingUser = await userManager.FindByNameAsync(USERNAME);
 
@@ -40,7 +45,7 @@ namespace Shop_mvc_pv421.Extensions
                     Email = USERNAME,
                 };
 
-                var result = await userManager.CreateAsync(user, PASSWORD);
+                var result = await userManager.CreateAsync(user, password);
 
                 if (result.Succeeded)
                     await userManager.AddToRoleAsync(user, Roles.ADMIN);
