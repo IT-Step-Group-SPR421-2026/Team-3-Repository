@@ -32,6 +32,18 @@ namespace Shop_mvc_pv421.Controllers
         }
         
         [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var product = ctx.Products
+                .Include(x => x.Category)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (product == null) return NotFound();
+
+            return View(product);
+        }
+        
+        [HttpGet]
         public IActionResult Create()
         {
             SetCategoriesToViewBag();

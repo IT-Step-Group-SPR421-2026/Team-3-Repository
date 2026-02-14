@@ -30,7 +30,7 @@
                     <img src="@(i.ImageUrl ?? "https://thumbs.dreamstime.com/b/no-image-icon-vector-available-picture-symbol-isolated-white-background-suitable-user-interface-element-205805243.jpg")" alt="@i.Title" height="50" />
                 </td>
                 <td>
-                    <a href="#">@i.Title</a>
+                    <a asp-action="Details" asp-route-id="@i.Id">@i.Title</a>
                 </td>
                 <td>
                     @if (i.Discount > 0)    

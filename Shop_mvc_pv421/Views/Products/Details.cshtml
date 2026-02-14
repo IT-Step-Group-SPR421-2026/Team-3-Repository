@@ -1,0 +1,57 @@
+@model Product
+@{
+    var hasDiscount = Model.Discount > 0;
+    var finalPrice = hasDiscount ? (Model.Price * (100 - Model.Discount)) / 100 : Model.Price;
+}
+
+<div class="row mt-4">
+    <div class="col-md-5 text-center">
+        <img class="img-fluid rounded border" src="@(Model.ImageUrl ?? "https://thumbs.dreamstime.com/b/no-image-icon-vector-available-picture-symbol-isolated-white-background-suitable-user-interface-element-205805243.jpg")" alt="@Model.Title" />
+    </div>
+    <div class="col-md-7">
+        <h2>@Model.Title</h2>
+        <p class="text-muted">@Model.Category?.Name</p>
+
+        <div class="mb-3">
+            @if (hasDiscount)
+            {
+                <span class="text-decoration-line-through me-2">@Model.Price$</span>
+                <span class="fw-bold text-danger">@finalPrice$</span>
+                <span class="badge bg-success ms-2">-@Model.Discount%</span>
+            }
+            else
+            {
+                <span class="fw-bold">@Model.Price$</span>
+            }
+        </div>
+
+        <div class="mb-3">
+            @if (Model.Quantity > 0)
+            {
+                <span class="badge bg-success">In Stock: @Model.Quantity</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Out of Stock</span>
+            }
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <p>@Model.Description</p>
+        }
+
+        <div class="mt-4 d-flex gap-2">
+            @if (Model.Quantity > 0)
+            {
+                <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-primary">
+                    Add to Cart
+                </a>
+                <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-success">
+                    Buy Now
+                </a>
+            }
+            <a asp-action="Index" class="btn btn-outline-secondary">Back to Products</a>
+        </div>
+    </div>
+</div>
