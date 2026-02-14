@@ -1,0 +1,58 @@
+﻿@model Product
+
+<h1>Edit Product</h1>
+
+@* <div asp-validation-summary="All"></div> *@
+
+<form class="row g-3" asp-action="Edit" method="post">
+    <div class="col-md-8">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" type="text" class="form-control" placeholder="Enter product title">
+        <span asp-validation-for="Title" class="small text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Price" class="form-label">Price</label>
+        <input asp-for="Price" min="0" step="0.01" type="number" class="form-control" placeholder="Enter price">
+        <span asp-validation-for="Price" class="small text-danger"></span>
+    </div>
+    <div class="col-md-2">
+        <label asp-for="Discount" class="form-label">Discount</label>
+        <input asp-for="Discount" min="0" max="100" step="1" type="number" class="form-control" placeholder="Enter discount">
+        <span asp-validation-for="Discount" class="small text-danger"></span>
+    </div>
+    <div class="col-md-2">
+        <label asp-for="Quantity" class="form-label">Quantity</label>
+        <input asp-for="Quantity" min="0" step="1" type="number" class="form-control" placeholder="Enter quantity">
+        <span asp-validation-for="Quantity" class="small text-danger"></span>
+    </div>
+    <div class="col-md-8">
+        <label asp-for="CategoryId" class="form-label">Category Id</label>
+        <input asp-for="CategoryId" type="number" class="form-control" placeholder="Enter category ID">
+        <span asp-validation-for="CategoryId" class="small text-danger"></span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="ImageUrl" class="form-label">Image Url</label>
+        <input asp-for="ImageUrl" type="url" class="form-control" placeholder="Enter image URL">
+        <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+        <span asp-validation-for="Description" class="small text-danger"></span>
+    </div>
+    
+    @* <div class="col-md-4"> *@
+    @*     <label for="inputState" class="form-label">State</label> *@
+    @*     <select id="inputState" class="form-select"> *@
+    @*         <option selected>Choose...</option> *@
+    @*         <option>...</option> *@
+    @*     </select> *@
+    @* </div> *@
+   
+    <div class="col-6">
+        <a asp-action="Index" class="btn btn-dark w-100">Back</a>
+    </div>
+    <div class="col-6">
+        <button type="submit" class="btn btn-success w-100">Edit</button>
+    </div>
+</form>
