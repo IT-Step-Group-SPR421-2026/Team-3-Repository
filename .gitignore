@@ -1,6 +1,9 @@
 # Visual Studio Code
 .vscode/
 
+# IntelliJ IDEA / Rider
+.idea/
+
 ## Ignore Visual Studio temporary files, build results, and
 
 # User-specific files
