@@ -1,0 +1,18 @@
+﻿@model OrderSummaryModel
+
+@{
+    ViewData["Title"] = "OrderSummary";
+    Layout = "~/Views/Shared/_MailLayout.cshtml";
+}
+
+<h1>Order #@Model.OrderNumber Summary</h1>
+<hr />
+<p>User: <span>@Model.UserName</span></p>
+<ul>
+    @foreach (var item in Model.Products)
+    {
+        <li class="list-group-item">@item.Title @item.Price$</li>
+    }
+</ul>
+
+<p>Total Price / Quantity: <span>@Model.TotalPrice</span>$ / @Model.ItemsCount</p>

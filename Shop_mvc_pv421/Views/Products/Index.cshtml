@@ -1,0 +1,95 @@
+﻿@model List<Product>
+@{
+    string delDialogId = "deleteConfirm";
+    string editDialogId = "hersgfyek";
+}
+
+<h1>Products List</h1>
+
+<a asp-action="Create" class="btn btn-primary my-1">Create New Product</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Category</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr class="align-middle">
+                <th scope="row">@i.Id</th>
+                <td class="grid-item-main-image">
+                    <img src="@(i.ImageUrl ?? "https://thumbs.dreamstime.com/b/no-image-icon-vector-available-picture-symbol-isolated-white-background-suitable-user-interface-element-205805243.jpg")" alt="@i.Title" height="50" />
+                </td>
+                <td>
+                    <a href="#">@i.Title</a>
+                </td>
+                <td>
+                    @if (i.Discount > 0)    
+                    {
+                        <span class="text-decoration-line-through">@i.Price$</span>
+                        <span class="ms-1">@((i.Price * (100 - i.Discount)) / 100)$</span>
+                    }
+                    else
+                    {
+                        <span>@i.Price$</span>
+                    }
+                        
+                </td>
+                <td>@i.Category?.Name</td>
+                <td>@i.Quantity</td>
+                <td>
+                    @if (i.Quantity > 0)
+                    {
+                        <span class="badge bg-success">In Stock</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Out of Stock</span>
+                    }
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-outline-warning">Edit</a>
+                        <a data-bs-id=@i.Id data-bs-toggle="modal" data-bs-target="#@delDialogId" class="btn btn-outline-danger">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Count == 0)
+{
+    <div class="text-center">
+        <img width="500" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-concept-illustration-svg-png-download-2902554.png" alt="Empty" />
+    </div>
+}
+
+<partial name="_ConfirmModalDialogPartial" model=@(new ConfirmDialogModel() {
+         DialogId = delDialogId,
+         Mode = DialogType.danger,
+         Message = "Do you want to delete the product?",
+         Title = "Delete Confirmation" }) />
+
+@* <partial name="_ConfirmModalDialogPartial" model=@(new ConfirmDialogModel() {
+         DialogId = editDialogId,
+         Mode = DialogType.warning,
+         Message = "Do you want to edit the product?",
+         Title = "Edit Confirmation" }) /> *@
+
+@section Scripts
+{
+    <script>
+        configConfirmModal('@delDialogId', '/products/delete/');
+        // configConfirmModal('@editDialogId', '/products/edit/');
+    </script>
+}
